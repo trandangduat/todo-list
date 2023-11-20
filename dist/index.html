@@ -9,12 +9,12 @@
 <body>
     <div id = "container">
         <div id = "sidebar">
-            <li class = "label"><a href = "#">Today</a></li>
-            <li class = "label"><a href = "#">Upcoming</a></li>
-            <li class = "label"><a href = "#">Projects</a></li>
-            <ul id = "projects" class = "dropdown">
+            <div class = "label" id = "today"><a href = "#today">Today</a></div>
+            <div class = "label" id = "upcoming"><a href = "#upcoming">Upcoming</a></div>
+            <div class = "label" id = "projects"><a href = "#projects">Projects</a></div>
+            <ul class = "dropdown">
                 <li>Silly project 1</li>
-                <li id = "create-new-project">Add more...</li>
+                <li id = "create-new-project" style = "cursor: pointer;">+ Add a project...</li>
             </ul>
         </div>
         <div id = "main-content">

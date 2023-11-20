@@ -4,10 +4,28 @@
     src: url("Inter-VariableFont_slnt\,wght.ttf");
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: inter;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
+}
+
+#container {
+    --sidebar-width: 20%;
+    display: flex;
+    flex-wrap: nowrap
+}
+
+#sidebar {
+    flex-basis: var(--sidebar-width);
+}
+
+#main-content {
+    flex-basis: calc(100% - var(--sidebar-width));
 }
