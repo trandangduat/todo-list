@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-do List</title>
-    <script src = "bundle.js"></script>
+    <script src = "bundle.js" defer></script>
 </head>
 <body>
     <div id = "container">
@@ -13,8 +13,7 @@
             <div class = "label" id = "upcoming"><a href = "#upcoming">Upcoming</a></div>
             <div class = "label" id = "projects"><a href = "#projects">Projects</a></div>
             <ul class = "dropdown">
-                <li>Silly project 1</li>
-                <li id = "create-new-project" style = "cursor: pointer;">+ Add a project...</li>
+                <li id = "create-new-project">+ Add a project...</li>
             </ul>
         </div>
         <div id = "main-content">
