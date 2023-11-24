@@ -9,11 +9,11 @@
 <body>
     <div id = "container">
         <div id = "sidebar">
-            <div class = "label" id = "today"><a href = "#today">Today</a></div>
-            <div class = "label" id = "upcoming"><a href = "#upcoming">Upcoming</a></div>
-            <div class = "label" id = "projects"><a href = "#projects">Projects</a></div>
-            <ul class = "dropdown">
-                <li id = "create-new-project">+ Add a project...</li>
+            <div class = "label currently-active" id = "today"><a href = "#today"><i class="fa-solid fa-calendar fa-fw"></i>Today</a></div>
+            <div class = "label" id = "upcoming"><a href = "#upcoming"><i class="fa-solid fa-calendar-plus fa-fw"></i>Upcoming</a></div>
+            <div class = "label" id = "projects"><a href = "#projects"><i class="fa-solid fa-folder fa-fw"></i>Projects</a></div>
+            <ul class = "dropdown" style = "display: none;">
+                <li id = "create-new-project" class = "btn neutral">Add a project</li>
             </ul>
         </div>
         <div id = "main-content">

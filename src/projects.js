@@ -1,19 +1,27 @@
-const todo_item = function (name, due_date, priority, status) {
-    return { name, due_date, priority, status };
+function todo_item (name, due_date, priority, status) {
+    return { name, due_date, priority, status, toggle_status };
 };
 
-const project = function (name) {
+function toggle_status(item) {
+    if (item.status == 'undone') {
+        item.status = 'done';
+    } else {
+        item.status = 'undone';
+    }
+}
+
+function project (name) {
     const all_items = [];
     const new_item = function (item_name, due_date, priority) {
         all_items.push(todo_item(item_name, due_date, priority, 'undone'));
     };
-    const done_item = function (item_index) {
-        all_items[item_index].status = 'done';
-    };
     const remove_item = function (item_index) {
         all_items.splice(item_index, 1);
     };
-    return {name, all_items, new_item, done_item, remove_item};
+    const toggle_item_status = function (item_index) {
+        toggle_status(all_items[item_index]);
+    };
+    return { name, all_items, new_item, remove_item, toggle_item_status };
 };
 
 const Projects = (function() {
