@@ -1,14 +1,13 @@
 function todo_item (name, due_date, priority, status) {
+    const toggle_status = function() {
+        if (this.status == 'undone') {
+            this.status = 'done';
+        } else {
+            this.status = 'undone';
+        }
+    };
     return { name, due_date, priority, status, toggle_status };
 };
-
-function toggle_status(item) {
-    if (item.status == 'undone') {
-        item.status = 'done';
-    } else {
-        item.status = 'undone';
-    }
-}
 
 function project (name) {
     const all_items = [];
@@ -19,7 +18,7 @@ function project (name) {
         all_items.splice(item_index, 1);
     };
     const toggle_item_status = function (item_index) {
-        toggle_status(all_items[item_index]);
+        all_items[item_index].toggle_status();
     };
     return { name, all_items, new_item, remove_item, toggle_item_status };
 };

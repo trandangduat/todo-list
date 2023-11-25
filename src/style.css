@@ -18,7 +18,7 @@
 }
 
 body {
-    font-family: inter;
+    font-family: inter, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -133,14 +133,26 @@ a {
     padding: 7px 20px;
     border-radius: var(--border-radius);
     display: flex;
-    gap: 8px;
+    gap: 15px;
     align-items: center;
+    position: relative;
+}
+
+.dropdown li.current:after {
+    content: '';
+    border: 3px solid var(--primary);
+    position: absolute;
+    left: -11px;
+    height: 80%;
+    opacity: .7;
+    border-radius: 20px;
 }
 
 .dropdown li > i {
     margin: auto 0;
     font-size: 1rem;
     opacity: .6;
+    flex: 0;
 }
 
 .dropdown li:hover,
@@ -179,9 +191,9 @@ a {
 }
 
 #items-wrapper > .todo-item {
-    padding: 10px 30px;
+    padding: 8px 30px;
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
     align-items: center;
 }
 
@@ -193,21 +205,79 @@ a {
 }
 
 #items-wrapper > .todo-item span {
-    font-style: italic;
     opacity: .6;
 }
 
-#items-wrapper>.todo-item i {
+#items-wrapper>.todo-item #left-side i {
     cursor: pointer;
-    font-size: 1.2rem;
     opacity: .6;
 }
 
-#items-wrapper>.todo-item i:hover {
+#items-wrapper #mark-done {
+    display: flex;
+    font-size: 1.1rem;
+}
+
+#items-wrapper>.todo-item #left-side i:hover {
+    opacity: .8;
+}
+
+.done #todos-name {
+    text-decoration: line-through;
+    opacity: .4;
+}
+
+#options {
+    position: relative;
+}
+
+#dropdown-trigger {
+    background: rgb(0, 0, 0, 10%);
+    border-radius: var(--border-radius);
+    padding: 0px 7px;
+    cursor: pointer;
+    opacity: .6;
+}
+
+/* #dropdown-trigger:hover {
+    opacity: 1;
+} */
+
+#options:hover  #dropdown-trigger {
     opacity: 1;
 }
 
-.done {
-    text-decoration: line-through;
-    opacity: .4;
+#options:hover #options-dropdown {
+    visibility: visible;
+}
+
+#options-dropdown {
+    position: absolute;
+    width: max-content;
+    /* margin-top: 5px; */
+    visibility: hidden;
+    z-index: 1;
+}
+
+.tooltip {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 6px 0;
+}
+
+.tooltip>.opt {
+    padding: 7px 15px;
+    cursor: pointer;
+    font-size: .9rem;
+}
+.tooltip>.opt:hover {
+    background: rgb(0, 0, 0, 5%);
+}
+.tooltip>.opt > i {
+    pointer-events: none;
+    margin-right: 7px;
+    opacity: .6;
 }

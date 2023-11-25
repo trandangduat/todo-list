@@ -7,12 +7,17 @@ function todo_item (name, due_date, priority, status, index) {
     item.innerHTML = `
         <div id = "left-side">
             <div id = "mark-done"><i class="fa-regular fa-circle"></i></div>
-            <p>${name}</p>
+            <p id = "todos-name">${name}</p>
         </div>
         <div id = "right-side">
-            <span class = "time-span">${due_date}</span>
-            <div id = "edit"><i class = "fa-solid fa-pen"></i></div>
-            <div id = "remove"><i class="fa-solid fa-trash"></i></div>
+            <span class = "time-span">${due_date}</span>    
+            <div id = "options">
+                <div id = "dropdown-trigger"><i class="fa-solid fa-ellipsis"></i></div>
+                <div id = "options-dropdown" class = "tooltip">
+                    <div id = "edit" class = "opt"><i class = "fa-solid fa-pen fa-fw"></i>Edit</div>
+                    <div id = "remove" class = "opt"><i class="fa-solid fa-trash fa-fw"></i>Remove</div>
+                </div>
+            </div>
         </div>
     `;
     return item;
@@ -33,15 +38,17 @@ function project (name, index) {
     const all_items = [];
     const new_item = function (item_name, due_date, priority) {
         Projects.all_projects[index].new_item(item_name, due_date, priority);
-        
         all_items.push(todo_item(item_name, due_date, priority, 'undone', all_items.length));
-        console.log(all_items);
-        console.log(Projects.all_projects[index].all_items);
         return all_items[all_items.length - 1];
     };
     const remove_item = function (item_index) {
         Projects.all_projects[index].remove_item(item_index);
         all_items.splice(item_index, 1);
+
+        // update index of all items behind the removed one
+        for (let i = item_index; i < all_items.length; i++) {
+            all_items[i].setAttribute('data-index', i);
+        }
     };
     const toggle_item_status = function (item_index) {
         Projects.all_projects[index].toggle_item_status(item_index);

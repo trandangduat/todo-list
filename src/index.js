@@ -122,7 +122,22 @@ const dom_manipulate = (function () {
                 const item = clickedElement.parentElement.parentElement;
                 const item_index = item.getAttribute("data-index");
                 DOMprojects.all_projects[current_project_index].toggle_item_status(item_index);
-                console.log(Projects.all_projects[current_project_index].all_items);
+            }
+        });
+    })();
+
+
+    const remove_todo_item = (function() {
+        main_content.addEventListener("click", function(event) {
+            const clickedElement = event.target;
+            if (clickedElement.id == "remove") {
+                const item = clickedElement.closest('.todo-item');
+                const index = item.getAttribute("data-index");
+                if (confirm("Delete this item?")) {
+                    item.remove();
+                    DOMprojects.all_projects[current_project_index].remove_item(index);
+                    console.log("item removed successfully!");
+                }
             }
         });
     })();
