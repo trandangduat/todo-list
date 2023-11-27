@@ -14,13 +14,16 @@ function project (name) {
     const new_item = function (item_name, due_date, priority) {
         all_items.push(todo_item(item_name, due_date, priority, 'undone'));
     };
+    const edit_item = function (item_index, item_name, due_date, priority, status) {
+        all_items[item_index] = todo_item(item_name, due_date, priority, status);
+    };
     const remove_item = function (item_index) {
         all_items.splice(item_index, 1);
     };
     const toggle_item_status = function (item_index) {
         all_items[item_index].toggle_status();
     };
-    return { name, all_items, new_item, remove_item, toggle_item_status };
+    return { name, all_items, new_item, edit_item, remove_item, toggle_item_status };
 };
 
 const Projects = (function() {

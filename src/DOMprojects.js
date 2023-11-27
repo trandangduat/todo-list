@@ -41,6 +41,23 @@ function project (name, index) {
         all_items.push(todo_item(item_name, due_date, priority, 'undone', all_items.length));
         return all_items[all_items.length - 1];
     };
+    const edit_item = function (item_index, item_name, due_date, priority, status) {
+        Projects.all_projects[index].edit_item(item_index, item_name, due_date, priority, status);
+        const dom_status_icon = all_items[item_index].querySelector('#mark-done i');
+        const dom_item_name = all_items[item_index].querySelector('#todos-name');
+        const dom_due_date = all_items[item_index].querySelector('.time-span');
+        dom_item_name.textContent = item_name;
+        dom_due_date.textContent = due_date;
+        if (status == 'done' && dom_status_icon.classList.contains('fa-regular', 'fa-circle')) {
+            dom_status_icon.classList.remove('fa-regular', 'fa-circle');
+            dom_status_icon.classList.add('fa-solid', 'fa-circle-check');
+        }
+        else if (status == 'undone' && dom_status_icon.classList.contains('fa-solid', 'fa-circle-check')) {
+            dom_status_icon.classList.remove('fa-solid', 'fa-circle-check');
+            dom_status_icon.classList.add('fa-regular', 'fa-circle');
+        }
+        all_items[item_index].setAttribute('class', `todo-item ${priority} ${status}`);
+    };
     const remove_item = function (item_index) {
         Projects.all_projects[index].remove_item(item_index);
         all_items.splice(item_index, 1);
@@ -61,7 +78,7 @@ function project (name, index) {
         <p>${name}</p>
     `;
 
-    return { name, dom_project_in_dropdown, all_items, new_item, remove_item, toggle_item_status };
+    return { name, dom_project_in_dropdown, all_items, new_item, edit_item, remove_item, toggle_item_status };
 };
 
 const DOMprojects = (function () {

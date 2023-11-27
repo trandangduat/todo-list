@@ -126,6 +126,20 @@ const dom_manipulate = (function () {
         });
     })();
 
+    const edit_todo_item = (function() {
+        main_content.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            if (clickedElement.id == "edit") {
+                const item = clickedElement.closest('.todo-item');
+                const index = item.getAttribute("data-index");
+                const name = prompt('todo name?');
+                const due_date = prompt('due date?');
+                const priority = prompt('priority?');
+                const status = prompt('status');
+                DOMprojects.all_projects[current_project_index].edit_item(index, name, due_date, priority, status);
+            }
+        });
+    })();
 
     const remove_todo_item = (function() {
         main_content.addEventListener("click", function(event) {
