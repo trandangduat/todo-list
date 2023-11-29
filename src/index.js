@@ -101,6 +101,43 @@ const dom_manipulate = (function () {
         });
     })();
 
+    const edit_project_information = (function() {
+        main_content.addEventListener("click", function (event) {
+            const clickedElement = event.target;
+            if (clickedElement.parentElement.id == 'edit-project') {
+                const cancel_change = clickedElement.parentElement.querySelector("#cancel-project-change");
+                const project_name_section = document.querySelector('#header-bar > h1 > #project-name');
+                if (clickedElement.classList.contains('fa-pen')) {
+                    clickedElement.classList.remove('fa-pen');
+                    clickedElement.classList.add('fa-check');
+                    cancel_change.style.display = 'block';
+                    // make the project name section editable if it's in edit mode
+                    project_name_section.contentEditable = 'true';
+                    project_name_section.focus();
+                } 
+                else if (clickedElement.classList.contains('fa-check')) {
+                    clickedElement.classList.remove('fa-check');
+                    clickedElement.classList.add('fa-pen');
+                    cancel_change.style.display = 'none';
+                    // turn off editable content if it's out of edit mode
+                    project_name_section.contentEditable = 'false';
+                    // and change the project information with that given information
+                    const project_name = project_name_section.innerText;
+                    DOMprojects.change_project_name(current_project_index, project_name);
+                } 
+                else if (clickedElement.id == 'cancel-project-change') {
+                    clickedElement.parentElement.querySelector('.fa-solid').classList.remove('fa-check');
+                    clickedElement.parentElement.querySelector('.fa-solid').classList.add('fa-pen');
+                    clickedElement.style.display = 'none';
+                    // turn off editable content if it's out of edit mode
+                    project_name_section.contentEditable = 'false';
+                    // return the project name to orignal name
+                    project_name_section.innerText = DOMprojects.all_projects[current_project_index].name;
+                }
+            }
+        });
+    })();
+
     const new_todo_item = (function () {
         main_content.addEventListener("click", function(event) {
             const clickedElement = event.target;

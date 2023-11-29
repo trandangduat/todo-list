@@ -60,7 +60,7 @@ function project (name, index) {
     const remove_item = function (item_index) {
         Projects.all_projects[index].remove_item(item_index);
         all_items.splice(item_index, 1);
-
+        
         // update index of all items behind the removed one
         for (let i = item_index; i < all_items.length; i++) {
             all_items[i].setAttribute('data-index', i);
@@ -88,12 +88,17 @@ const DOMprojects = (function () {
         all_projects.push(project(name, all_projects.length));
         return all_projects[all_projects.length - 1];
     };
+    const change_project_name = function (project_index, new_name) {
+        Projects.change_project_name(project_index, new_name);
+        all_projects[project_index].name = new_name;
+        all_projects[project_index].dom_project_in_dropdown.querySelector('p').innerText = new_name;
+    };
     const remove_project = function (project_index) {
         Projects.remove_project(project_index);
         
         all_projects.splice(project_index, 1);
     }
-    return { all_projects, new_project, remove_project };
+    return { all_projects, new_project, remove_project, change_project_name };
 })();
 
 export { DOMprojects };

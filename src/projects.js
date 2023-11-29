@@ -33,8 +33,11 @@ const Projects = (function() {
     };
     const remove_project = function (project_index) {
         all_projects.splice(project_index, 1);
-    }
-    return {all_projects, new_project, remove_project};
+    };
+    const change_project_name = function (project_index, new_name) {
+        all_projects[project_index].name = new_name;
+    };
+    return {all_projects, new_project, remove_project, change_project_name};
 })();
 
 export {Projects};

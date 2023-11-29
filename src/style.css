@@ -30,7 +30,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
-    margin-right: 15px;
     opacity: .6;
 }
 
@@ -168,6 +167,19 @@ a {
     color: var(--primary);
 }
 
+#project-name:focus,
+#project-name[contenteditable="true"] {
+    outline: 2px solid var(--primary);
+    border-radius: var(--border-radius);
+    color: var(--primary);
+    font-size: 1rem;
+    padding: 10px;
+}
+
+#project-name[contenteditable="false"] {
+    animation: fadeInSlideLeftToRight 200ms forwards;
+}
+
 #header-bar #control {
     display: flex;
     gap: 10px;
@@ -242,6 +254,23 @@ a {
 
 #header-bar h1 {
     font-size: 1.5rem;
+    display: flex;
+    gap: 15px;
+}
+
+#header-bar #edit-project {
+    display: flex;
+    gap: 10px;
+}
+
+#header-bar #edit-project i {
+    font-size: 1rem;
+    margin: auto;
+    cursor: pointer;
+}
+
+#header-bar #edit-project i:hover {
+    opacity: 1;
 }
 
 #items-wrapper {
