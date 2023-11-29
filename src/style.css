@@ -199,7 +199,10 @@ a {
 }
 
 .dropdown p {
-    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1px 0;
 }
 
 .dropdown li {
@@ -210,6 +213,14 @@ a {
     gap: 15px;
     align-items: center;
     position: relative;
+    justify-content: space-between;
+}
+
+.dropdown li #left-side {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    overflow: hidden;
 }
 
 .dropdown li.current:after {
@@ -222,7 +233,7 @@ a {
     border-radius: 20px;
 }
 
-.dropdown li > i {
+.dropdown li  i {
     margin: auto 0;
     font-size: 1rem;
     opacity: .6;
@@ -232,6 +243,10 @@ a {
 .dropdown li:hover,
 .dropdown li.current {
     background: rgb(0, 0, 0, 5%);
+}
+
+.dropdown li #remove-project i:hover {
+    opacity: 1;
 }
 
 /* main content */

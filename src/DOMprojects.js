@@ -73,8 +73,11 @@ function project (name, index) {
     const dom_project_in_dropdown = document.createElement('li');
     dom_project_in_dropdown.setAttribute('data-index', index);
     dom_project_in_dropdown.innerHTML = `
-        <i class="fa-regular fa-file fa-fw"></i>
-        <p>${name}</p>
+        <div id = "left-side">
+            <i class="fa-regular fa-file fa-fw"></i>
+            <p>${name}</p>
+        </div>
+        <div id = "remove-project"><i class="fa-solid fa-delete-left"></i></div>
     `;
 
     return { name, dom_project_in_dropdown, all_items, new_item, edit_item, remove_item, toggle_item_status };
@@ -95,8 +98,10 @@ const DOMprojects = (function () {
     };
     const remove_project = function (project_index) {
         Projects.remove_project(project_index);
-        
         all_projects.splice(project_index, 1);
+        for (let i = project_index; i < all_projects.length; i++) {
+            all_projects[i].dom_project_in_dropdown.setAttribute('data-index', i);
+        }
     }
     return { all_projects, new_project, remove_project, change_project_name };
 })();

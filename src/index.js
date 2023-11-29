@@ -42,6 +42,12 @@ function change_previous_active_project_to (current_project) {
     previous_active_project = current_project;
 }
 
+function change_main_content_with_project (project_index) {
+    const project = DOMprojects.all_projects[project_index];
+    projectHTMLTemplate.change_project_name_to(project.name);
+    projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
+}
+
 const dom_manipulate = (function () {
 
     const toggle_dropdown_on_click = (function () {
@@ -83,20 +89,32 @@ const dom_manipulate = (function () {
             projectHTMLTemplate.fill_items_wrapper_with(new_project.all_items);
         });
     })();
+
+    const remove_project = (function() {
+        projects_dropdown.addEventListener("click", function(event) {
+            const clickedElement = event.target.closest("#remove-project");
+            if (clickedElement) {
+                if (confirm("Are you sure you want to remove this project?")) {
+                    const project = clickedElement.parentElement;
+                    const index = project.getAttribute("data-index");
+                    project.remove();
+                    DOMprojects.remove_project(index);
+                    // Return the 404 not found page if the current project is removed
+                    
+                    
+                }
+            }
+        });
+    })();
     
-    const change_main_content_on_different_project = (function () {
+    const click_project_label_to_change_main_content = (function () {
         projects_dropdown.addEventListener("click", function(event) {
             const clickedElement = event.target;
-            if (clickedElement.tagName == 'LI' && !(clickedElement.id == 'create-new-project')) {
-                change_previous_active_project_to(clickedElement);
+            const project_label = clickedElement.closest('#sidebar .dropdown > li');
+            if (project_label && project_label.id != 'create-new-project') {
+                change_previous_active_project_to(project_label);
                 change_previous_active_label_to(projects_button);
-                
-                const project = DOMprojects.all_projects[current_project_index];
-                // console.log("You're currently at project with index: " + current_project_index);
-                
-                projectHTMLTemplate.change_project_name_to(project.name);
-                projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
-
+                change_main_content_with_project(current_project_index);
             }
         });
     })();
@@ -132,7 +150,7 @@ const dom_manipulate = (function () {
                     // turn off editable content if it's out of edit mode
                     project_name_section.contentEditable = 'false';
                     // return the project name to orignal name
-                    project_name_section.innerText = DOMprojects.all_projects[current_project_index].name;
+                    project_name_section.querySelector('p').innerText = DOMprojects.all_projects[current_project_index].name;
                 }
             }
         });
@@ -196,7 +214,7 @@ const dom_manipulate = (function () {
             due_date = edit_todo_info.querySelector('#due-date').value;
             priority = edit_todo_info.querySelector(`input[name="priority"]:checked`).value;
 
-            due_date = formatDistanceToNow(parseISO(due_date));
+            due_date = formatDistanceToNow(parseISO(due_date), { addSuffix: true });
 
             // close the dialog after clicking the 'Save changes' button
             edit_todo_info.close();
