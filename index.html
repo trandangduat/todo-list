@@ -27,5 +27,39 @@
             Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.</p>
         </div>
     </div>
+    <dialog id="edit-todo-information">
+        <form id="popup-form" action="" method="post">
+            <fieldset id="popup-header">
+                <p>Edit todo item</p>
+            </fieldset>
+            <fieldset>
+                <label for="item-name" class="text-label">Name</label>
+                <input type="text" id="item-name" name="item-name">
+            </fieldset>
+            <fieldset>
+                <label for="due-date" class="text-label">Due date</label>
+                <input type="date" id="due-date" name="due-date">
+            </fieldset>
+            <fieldset>
+                <label for="priority" class="text-label">Priority</label>
+                <div>
+                    <input type="radio" id="high" name="priority" value="high">
+                    <label for="high">High</label>
+                </div>
+                <div>
+                    <input type="radio" id="medium" name="priority" value="medium">
+                    <label for="medium">Medium</label>
+                </div>
+                <div>
+                    <input type="radio" id="low" name="priority" value="low">
+                    <label for="low">Low</label>
+                </div>
+            </fieldset>
+            <fieldset id="popup-footer">
+                <button type="button" class="btn neutral" id = "cancel-change">Cancel</button>
+                <button type="submit" class="btn confirm" id = "save-change">Save changes</button>
+            </fieldset>
+        </form>
+    </dialog>
 </body>
 </html>
