@@ -13,7 +13,7 @@ function todo_item (name, due_date, priority, status, index) {
             <span class = "time-span">${due_date}</span>    
             <div id = "options">
                 <div id = "dropdown-trigger"><i class="fa-solid fa-ellipsis"></i></div>
-                <div id = "options-dropdown" class = "tooltip">
+                <div class = "tooltip">
                     <div id = "edit" class = "opt"><i class = "fa-solid fa-pen fa-fw"></i>Edit</div>
                     <div id = "remove" class = "opt"><i class="fa-solid fa-trash fa-fw"></i>Remove</div>
                 </div>
@@ -22,7 +22,6 @@ function todo_item (name, due_date, priority, status, index) {
     `;
     return item;
 };
-
 
 function toggle_status (item) {
     if (item.classList.contains('undone')) {

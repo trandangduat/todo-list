@@ -7,7 +7,10 @@ const projectHTMLTemplate = (function() {
             <i class="fa-regular fa-file"></i>
             <p style = "display:inline;"></p>
         </h1>
-        <div id="create-new-todo" class="btn primary">+ New todo</div>
+        <div id = "control">
+            <div id="edit-project" class = "btn neutral"><i class="fa-solid fa-pen"></i>Edit</div>
+            <div id="create-new-todo" class="btn confirm"><i class="fa-solid fa-pen-to-square"></i>New</div>
+        </div>
     `;
     
     const items_wrapper = document.createElement('div');

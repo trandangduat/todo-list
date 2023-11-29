@@ -3,6 +3,7 @@ import { DOMprojects } from './DOMprojects.js';
 import { Projects } from './projects.js';
 import { projectHTMLTemplate } from './projectHTMLTemplate.js';
 import './style.css';
+import { formatDistanceToNow, parseISO } from 'date-fns'
 
 const main_content = document.getElementById('main-content');
 const new_project_button = document.getElementById('create-new-project');
@@ -10,9 +11,14 @@ const projects_dropdown = new_project_button.parentElement;
 const today_button = document.getElementById('today');
 const upcoming_button = document.getElementById('upcoming');
 const projects_button = document.getElementById('projects');
+const edit_todo_info = document.getElementById('edit-todo-information');
+const cancel_todo_changes_button = document.querySelector('#edit-todo-information #cancel-change');
+const save_todo_changes_button = document.querySelector('#edit-todo-information #save-change');
 let current_project_index = -1;
 let previous_active_label = today_button;
 let previous_active_project;
+let dialog_action = 'NONE';
+let dialog_action_index = -1;
 
 function change_main_content (contents) {
     main_content.innerHTML = '';
@@ -43,10 +49,12 @@ const dom_manipulate = (function () {
             const folder_icon = document.querySelector("#projects > a > i");
             if (projects_dropdown.style.display == 'none') {
                 projects_dropdown.style.display = '';
+                projects_dropdown.style.animation = 'fadeInSlideDown 200ms forwards';
                 folder_icon.classList.remove('fa-folder');
                 folder_icon.classList.add('fa-folder-open');
             } else {
                 projects_dropdown.style.display = 'none';
+                projects_dropdown.style.animation = '';
                 folder_icon.classList.remove('fa-folder-open');
                 folder_icon.classList.add('fa-folder');
             }
@@ -84,7 +92,7 @@ const dom_manipulate = (function () {
                 change_previous_active_label_to(projects_button);
                 
                 const project = DOMprojects.all_projects[current_project_index];
-                console.log("You're currently at project with index: " + current_project_index);
+                // console.log("You're currently at project with index: " + current_project_index);
                 
                 projectHTMLTemplate.change_project_name_to(project.name);
                 projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
@@ -93,16 +101,13 @@ const dom_manipulate = (function () {
         });
     })();
 
-    const new_todo_item = (function() {
+    const new_todo_item = (function () {
         main_content.addEventListener("click", function(event) {
             const clickedElement = event.target;
             if (clickedElement.id == 'create-new-todo') {
-                const name = prompt('todo name?');
-                const due_date = prompt('due date?');
-                const priority = prompt('priority?');
-                const new_item = DOMprojects.all_projects[current_project_index].new_item(name, due_date, priority);
-                projectHTMLTemplate.add_item(new_item);
-
+                dialog_action = 'CREATE';
+                // open dialog to get the item's information
+                edit_todo_info.showModal();
             }
         });
     })();
@@ -130,14 +135,54 @@ const dom_manipulate = (function () {
         main_content.addEventListener("click", function (event) {
             const clickedElement = event.target;
             if (clickedElement.id == "edit") {
+                dialog_action = 'EDIT';
+                // open dialog to get the item's information
+                edit_todo_info.showModal();
+
                 const item = clickedElement.closest('.todo-item');
                 const index = item.getAttribute("data-index");
-                const name = prompt('todo name?');
-                const due_date = prompt('due date?');
-                const priority = prompt('priority?');
-                const status = prompt('status');
-                DOMprojects.all_projects[current_project_index].edit_item(index, name, due_date, priority, status);
+
+                // get the index of the todo item that trigger the dialog
+                dialog_action_index = index;
             }
+        });
+    })();
+
+    const handling_dialog_base_on_action = (function() {
+        let name,
+            due_date,
+            priority;
+
+        save_todo_changes_button.addEventListener("click", function (event) {
+            event.preventDefault();
+            name = edit_todo_info.querySelector('#item-name').value;
+            due_date = edit_todo_info.querySelector('#due-date').value;
+            priority = edit_todo_info.querySelector(`input[name="priority"]:checked`).value;
+
+            due_date = formatDistanceToNow(parseISO(due_date));
+
+            // close the dialog after clicking the 'Save changes' button
+            edit_todo_info.close();
+
+            // reset the form
+            edit_todo_info.querySelector('form').reset();
+
+            // create new item with information given in dialog
+            if (dialog_action == 'CREATE') {
+                const new_item = DOMprojects.all_projects[current_project_index].new_item(name, due_date, priority);
+                projectHTMLTemplate.add_item(new_item);
+            } 
+            else if (dialog_action == 'EDIT'){
+                DOMprojects.all_projects[current_project_index].edit_item(dialog_action_index, name, due_date, priority, 'undone');
+            }
+        });
+
+        cancel_todo_changes_button.addEventListener("click", function (event) {
+            event.preventDefault();
+            // close the dialog
+            edit_todo_info.close();
+            // reset the form
+            edit_todo_info.querySelector('form').reset();
         });
     })();
 
@@ -150,7 +195,7 @@ const dom_manipulate = (function () {
                 if (confirm("Delete this item?")) {
                     item.remove();
                     DOMprojects.all_projects[current_project_index].remove_item(index);
-                    console.log("item removed successfully!");
+                    // console.log("item removed successfully!");
                 }
             }
         });
