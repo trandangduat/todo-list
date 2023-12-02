@@ -1,4 +1,4 @@
-import { Projects } from './projects.js';
+//import { Projects } from './projects.js';
 
 function todo_item (name, due_date, priority, status, index) {
     const item = document.createElement('div');
@@ -33,15 +33,31 @@ function toggle_status (item) {
     }
 }
 
-function project (name, index) {
+const item = function(name, due_date, priority, status) {
+    return {name, due_date, priority, status};
+};
+
+const project = function(name, index) {
     const all_items = [];
-    const new_item = function (item_name, due_date, priority) {
-        Projects.all_projects[index].new_item(item_name, due_date, priority);
-        all_items.push(todo_item(item_name, due_date, priority, 'undone', all_items.length));
+    const items_details = [];
+    const update_project_to_storage = (index) => {
+        // If the number of items in storage is < than that of DOMprojects then it means this item is freshly created.
+        if (JSON.parse(localStorage.getItem(index)).items_details.length < all_items.length) {
+            localStorage.setItem(index, JSON.stringify({
+                name,
+                index,
+                items_details
+            }));
+        }
+    }
+    const new_item = (item_name, due_date, priority, status) => {
+        all_items.push(todo_item(item_name, due_date, priority, status, all_items.length)); 
+        items_details.push(new item(item_name, due_date, priority, status));
+        //console.log(all_items[all_items.length - 1]);
+        update_project_to_storage(index);   
         return all_items[all_items.length - 1];
     };
-    const edit_item = function (item_index, item_name, due_date, priority, status) {
-        Projects.all_projects[index].edit_item(item_index, item_name, due_date, priority, status);
+    const edit_item = (item_index, item_name, due_date, priority, status) => {
         const dom_status_icon = all_items[item_index].querySelector('#mark-done i');
         const dom_item_name = all_items[item_index].querySelector('#todos-name');
         const dom_due_date = all_items[item_index].querySelector('.time-span');
@@ -56,19 +72,27 @@ function project (name, index) {
             dom_status_icon.classList.add('fa-regular', 'fa-circle');
         }
         all_items[item_index].setAttribute('class', `todo-item ${priority} ${status}`);
+        items_details[item_index] = item(item_name, due_date, priority, status); 
+        update_project_to_storage(index);  
     };
-    const remove_item = function (item_index) {
-        Projects.all_projects[index].remove_item(item_index);
+    const remove_item = (item_index) => {
         all_items.splice(item_index, 1);
-        
+        items_details.splice(item_index, 1);
         // update index of all items behind the removed one
         for (let i = item_index; i < all_items.length; i++) {
             all_items[i].setAttribute('data-index', i);
         }
+        update_project_to_storage(index);   
+
     };
-    const toggle_item_status = function (item_index) {
-        Projects.all_projects[index].toggle_item_status(item_index);
+    const toggle_item_status = (item_index) => {
         toggle_status(all_items[item_index]);
+        if (items_details[item_index].status == 'undone') {
+            items_details[item_index].status = 'done';
+        } else {
+            items_details[item_index].status = 'undone';
+        }
+        update_project_to_storage(index);   
     };
     const dom_project_in_dropdown = document.createElement('li');
     dom_project_in_dropdown.setAttribute('data-index', index);
@@ -79,29 +103,55 @@ function project (name, index) {
         </div>
         <div id = "remove-project"><i class="fa-solid fa-delete-left"></i></div>
     `;
-
-    return { name, dom_project_in_dropdown, all_items, new_item, edit_item, remove_item, toggle_item_status };
+    return {
+        name,
+        index,
+        items_details,
+        dom_project_in_dropdown,
+        all_items,
+        new_item,
+        edit_item,
+        remove_item,
+        toggle_item_status
+    };
+   // return { name, index, dom_project_in_dropdown, all_items, new_item, edit_item, remove_item, toggle_item_status };
 };
+
 
 const DOMprojects = (function () {
     const all_projects = [];
-    const new_project = function (name) {
-        Projects.new_project(name);
-
-        all_projects.push(project(name, all_projects.length));
-        return all_projects[all_projects.length - 1];
+    const update_storage_with_project = (i) => {
+        const pj = all_projects[i];
+        const name = pj.name;
+        const index = pj.index;
+        const items_details = pj.items_details;
+        localStorage.setItem(index, JSON.stringify({
+            name,
+            index,
+            items_details
+        }));
+    }; 
+    const new_project = function (name, index) {
+        all_projects.push(new project(name, index));
+        if (!localStorage.getItem(index)) {
+            update_storage_with_project(index);   
+        } 
+        return all_projects[index];
     };
-    const change_project_name = function (project_index, new_name) {
-        Projects.change_project_name(project_index, new_name);
-        all_projects[project_index].name = new_name;
-        all_projects[project_index].dom_project_in_dropdown.querySelector('p').innerText = new_name;
+    const change_project_name = function (index, new_name) {
+        all_projects[index].name = new_name;
+        all_projects[index].dom_project_in_dropdown.querySelector('p').innerText = new_name;
+        update_storage_with_project(index);   
     };
-    const remove_project = function (project_index) {
-        Projects.remove_project(project_index);
-        all_projects.splice(project_index, 1);
-        for (let i = project_index; i < all_projects.length; i++) {
+    const remove_project = function (index) {
+        all_projects.splice(index, 1);
+        // After removing the 'index' project, all the projects to the right will be shifted to the left by 1 index
+        localStorage.removeItem(index); 
+        for (let i = index; i < all_projects.length; i++) {
             all_projects[i].dom_project_in_dropdown.setAttribute('data-index', i);
+            update_storage_with_project(i);   
         }
+        localStorage.removeItem(all_projects.length);
     }
     return { all_projects, new_project, remove_project, change_project_name };
 })();

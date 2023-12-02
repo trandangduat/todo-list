@@ -24,6 +24,7 @@ const projectHTMLTemplate = (function() {
     DOM.push(items_wrapper);
 
     const change_project_name_to = function (project_name) {
+        //console.log(project_name); 
         const header_title = document.querySelector("#header-bar > h1 > #project-name > p");
         header_title.textContent = project_name;
     };

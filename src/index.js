@@ -1,6 +1,6 @@
 import './fontawesome.js'
 import { DOMprojects } from './DOMprojects.js';
-import { Projects } from './projects.js';
+//import { Projects } from './projects.js';
 import { projectHTMLTemplate } from './projectHTMLTemplate.js';
 import './style.css';
 import { formatDistanceToNow, parseISO } from 'date-fns'
@@ -44,12 +44,17 @@ function change_previous_active_project_to (current_project) {
 
 function change_main_content_with_project (project_index) {
     const project = DOMprojects.all_projects[project_index];
-    projectHTMLTemplate.change_project_name_to(project.name);
+        change_main_content(projectHTMLTemplate.DOM);
+        projectHTMLTemplate.change_project_name_to(project.name);
     projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
 }
 
-const dom_manipulate = (function () {
+function add_project_label_to_sidebar_dropdown (project) {
+    projects_dropdown.insertBefore(project.dom_project_in_dropdown, new_project_button);
+}
 
+
+const dom_manipulate = (function () {
     const toggle_dropdown_on_click = (function () {
         projects_button.addEventListener("click", function (event) {
             const folder_icon = document.querySelector("#projects > a > i");
@@ -74,19 +79,16 @@ const dom_manipulate = (function () {
                 return prompt("name?");
             })();
 
-            DOMprojects.new_project(project_name);
-
             const len = DOMprojects.all_projects.length;
-            const new_project = DOMprojects.all_projects[len - 1];
+            const project = DOMprojects.new_project(project_name, len);
 
-            projects_dropdown.insertBefore(new_project.dom_project_in_dropdown, new_project_button);
-
+            add_project_label_to_sidebar_dropdown(project);
             change_previous_active_label_to(projects_button);
-            change_previous_active_project_to(new_project.dom_project_in_dropdown);
+            change_previous_active_project_to(project.dom_project_in_dropdown);
 
             change_main_content(projectHTMLTemplate.DOM);
-            projectHTMLTemplate.change_project_name_to(new_project.name);
-            projectHTMLTemplate.fill_items_wrapper_with(new_project.all_items);
+            projectHTMLTemplate.change_project_name_to(project.name);
+            projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
         });
     })();
 
@@ -99,10 +101,8 @@ const dom_manipulate = (function () {
                     const index = project.getAttribute("data-index");
                     project.remove();
                     DOMprojects.remove_project(index);
-                    // Return the 404 not found page if the current project is removed
-                    
-                    
-                }
+                    // TODO: Return the 404 not found page if the current project is removed
+                } 
             }
         });
     })();
@@ -224,7 +224,7 @@ const dom_manipulate = (function () {
 
             // create new item with information given in dialog
             if (dialog_action == 'CREATE') {
-                const new_item = DOMprojects.all_projects[current_project_index].new_item(name, due_date, priority);
+                const new_item = DOMprojects.all_projects[current_project_index].new_item(name, due_date, priority, 'undone');
                 projectHTMLTemplate.add_item(new_item);
             } 
             else if (dialog_action == 'EDIT'){
@@ -254,5 +254,24 @@ const dom_manipulate = (function () {
                 }
             }
         });
+    })();
+})();
+
+const load_local_storage_on_page_load = (function () {
+    const load_project = (function() {
+        for (let i = 0; i < localStorage.length; i++) {
+            const project_in_storage = JSON.parse(localStorage.getItem(i));
+            const project = DOMprojects.new_project(project_in_storage.name, i);
+            add_project_label_to_sidebar_dropdown(project);
+        }; 
+    })();
+     
+    const load_todos_into_project = (function() {
+        for (let i = 0; i < DOMprojects.all_projects.length; i++) {
+            const todos = JSON.parse(localStorage.getItem(i)).items_details;
+            todos.forEach((it) => {
+                DOMprojects.all_projects[i].new_item(it.name, it.due_date, it.priority, it.status);
+            }); 
+        } 
     })();
 })();
