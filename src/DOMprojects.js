@@ -2,11 +2,12 @@
 
 function todo_item (name, due_date, priority, status, index) {
     const item = document.createElement('div');
+    const status_icon = (status == 'undone' ? "fa-regular fa-circle" : "fa-solid fa-circle-check");
     item.setAttribute('class', `todo-item ${priority} ${status}`);
     item.setAttribute('data-index', index);
     item.innerHTML = `
         <div id = "left-side">
-            <div id = "mark-done"><i class="fa-regular fa-circle"></i></div>
+            <div id = "mark-done"><i class = "${status_icon}"></i></div>
             <p id = "todos-name">${name}</p>
         </div>
         <div id = "right-side">
@@ -14,8 +15,12 @@ function todo_item (name, due_date, priority, status, index) {
             <div id = "options">
                 <div id = "dropdown-trigger"><i class="fa-solid fa-ellipsis"></i></div>
                 <div class = "tooltip">
-                    <div id = "edit" class = "opt"><i class = "fa-solid fa-pen fa-fw"></i>Edit</div>
-                    <div id = "remove" class = "opt"><i class="fa-solid fa-trash fa-fw"></i>Remove</div>
+                    <div id = "edit" class = "opt">
+                        <i class = "fa-solid fa-pen fa-fw"></i>Edit
+                    </div>
+                    <div id = "remove" class = "opt">
+                        <i class="fa-solid fa-trash fa-fw"></i>Remove
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,29 +45,32 @@ const item = function(name, due_date, priority, status) {
 const project = function(name, index) {
     const all_items = [];
     const items_details = [];
-    const update_project_to_storage = (index) => {
-        // If the number of items in storage is < than that of DOMprojects then it means this item is freshly created.
-        if (JSON.parse(localStorage.getItem(index)).items_details.length < all_items.length) {
-            localStorage.setItem(index, JSON.stringify({
-                name,
-                index,
-                items_details
-            }));
-        }
-    }
+    const update_project_to_storage = () => {
+        localStorage.setItem(index, JSON.stringify({
+            name,
+            index,
+            items_details
+        }));
+    };
+
     const new_item = (item_name, due_date, priority, status) => {
         all_items.push(todo_item(item_name, due_date, priority, status, all_items.length)); 
         items_details.push(new item(item_name, due_date, priority, status));
-        //console.log(all_items[all_items.length - 1]);
-        update_project_to_storage(index);   
+        // If the number of items in storage is < than that of DOMprojects then it means this item is freshly created.
+        if (JSON.parse(localStorage.getItem(index)).items_details.length < all_items.length) {
+            update_project_to_storage();   
+        } 
         return all_items[all_items.length - 1];
     };
+
     const edit_item = (item_index, item_name, due_date, priority, status) => {
         const dom_status_icon = all_items[item_index].querySelector('#mark-done i');
-        const dom_item_name = all_items[item_index].querySelector('#todos-name');
-        const dom_due_date = all_items[item_index].querySelector('.time-span');
+        const   dom_item_name = all_items[item_index].querySelector('#todos-name');
+        const    dom_due_date = all_items[item_index].querySelector('.time-span');
+        
         dom_item_name.textContent = item_name;
         dom_due_date.textContent = due_date;
+        
         if (status == 'done' && dom_status_icon.classList.contains('fa-regular', 'fa-circle')) {
             dom_status_icon.classList.remove('fa-regular', 'fa-circle');
             dom_status_icon.classList.add('fa-solid', 'fa-circle-check');
@@ -73,8 +81,9 @@ const project = function(name, index) {
         }
         all_items[item_index].setAttribute('class', `todo-item ${priority} ${status}`);
         items_details[item_index] = item(item_name, due_date, priority, status); 
-        update_project_to_storage(index);  
+        update_project_to_storage();  
     };
+    
     const remove_item = (item_index) => {
         all_items.splice(item_index, 1);
         items_details.splice(item_index, 1);
@@ -82,9 +91,10 @@ const project = function(name, index) {
         for (let i = item_index; i < all_items.length; i++) {
             all_items[i].setAttribute('data-index', i);
         }
-        update_project_to_storage(index);   
+        update_project_to_storage();   
 
     };
+    
     const toggle_item_status = (item_index) => {
         toggle_status(all_items[item_index]);
         if (items_details[item_index].status == 'undone') {
@@ -92,8 +102,9 @@ const project = function(name, index) {
         } else {
             items_details[item_index].status = 'undone';
         }
-        update_project_to_storage(index);   
+        update_project_to_storage();   
     };
+    
     const dom_project_in_dropdown = document.createElement('li');
     dom_project_in_dropdown.setAttribute('data-index', index);
     dom_project_in_dropdown.innerHTML = `
@@ -101,8 +112,11 @@ const project = function(name, index) {
             <i class="fa-regular fa-file fa-fw"></i>
             <p>${name}</p>
         </div>
-        <div id = "remove-project"><i class="fa-solid fa-delete-left"></i></div>
+        <div id = "remove-project">
+            <i class="fa-solid fa-delete-left"></i>
+        </div>
     `;
+    
     return {
         name,
         index,
@@ -114,7 +128,6 @@ const project = function(name, index) {
         remove_item,
         toggle_item_status
     };
-   // return { name, index, dom_project_in_dropdown, all_items, new_item, edit_item, remove_item, toggle_item_status };
 };
 
 
@@ -153,7 +166,12 @@ const DOMprojects = (function () {
         }
         localStorage.removeItem(all_projects.length);
     }
-    return { all_projects, new_project, remove_project, change_project_name };
+    return { 
+        all_projects,
+        new_project,
+        remove_project,
+        change_project_name
+    };
 })();
 
 export { DOMprojects };
