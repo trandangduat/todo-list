@@ -1,3 +1,5 @@
+import { formatDistanceToNow, parseISO } from 'date-fns'
+
 function todo_item (name, due_date, priority, status, index) {
     const item = document.createElement('div');
     const status_icon = (status == 'undone' ? "fa-regular fa-circle" : "fa-solid fa-circle-check");
@@ -9,7 +11,7 @@ function todo_item (name, due_date, priority, status, index) {
             <p id = "todos-name">${name}</p>
         </div>
         <div id = "right-side">
-            <span class = "time-span">${due_date}</span>    
+            <span class = "time-span">${formatDistanceToNow(parseISO(due_date), {addSuffix: true})}</span>    
             <div id = "options">
                 <div id = "dropdown-trigger"><i class="fa-solid fa-ellipsis"></i></div>
                 <div class = "tooltip">

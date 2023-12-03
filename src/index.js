@@ -2,7 +2,6 @@ import './style.css';
 import './fontawesome.js'
 import { DOMprojects } from './DOMprojects.js';
 import { projectHTMLTemplate } from './projectHTMLTemplate.js';
-import { formatDistanceToNow, parseISO } from 'date-fns'
 
 const main_content = document.getElementById('main-content');
 const new_project_button = document.getElementById('create-new-project');
@@ -195,6 +194,12 @@ const dom_manipulate = (function () {
 
                 const item = clickedElement.closest('.todo-item');
                 const index = item.getAttribute("data-index");
+                
+                // update the dialog info with current item info
+                const current_item = DOMprojects.all_projects[current_project_index].items_details[index];
+                edit_todo_info.querySelector('#item-name').value = current_item.name;
+                edit_todo_info.querySelector('#due-date').value = current_item.due_date;
+                edit_todo_info.querySelector(`input[name="priority"]#${current_item.priority}`).checked = true;
 
                 // get the index of the todo item that trigger the dialog
                 dialog_action_index = index;
@@ -209,11 +214,11 @@ const dom_manipulate = (function () {
 
         save_todo_changes_button.addEventListener("click", function (event) {
             event.preventDefault();
-            name = edit_todo_info.querySelector('#item-name').value;
+            name     = edit_todo_info.querySelector('#item-name').value;
             due_date = edit_todo_info.querySelector('#due-date').value;
             priority = edit_todo_info.querySelector(`input[name="priority"]:checked`).value;
 
-            due_date = formatDistanceToNow(parseISO(due_date), { addSuffix: true });
+            //due_date = formatDistanceToNow(parseISO(due_date), { addSuffix: true });
 
             // close the dialog after clicking the 'Save changes' button
             edit_todo_info.close();
