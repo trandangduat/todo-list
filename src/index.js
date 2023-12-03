@@ -77,6 +77,8 @@ const dom_manipulate = (function () {
                 return prompt("name?");
             })();
 
+            if (!project_name) return;
+
             const len = DOMprojects.all_projects.length;
             const project = DOMprojects.new_project(project_name, len);
 

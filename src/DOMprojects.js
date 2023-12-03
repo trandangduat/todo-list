@@ -1,5 +1,3 @@
-//import { Projects } from './projects.js';
-
 function todo_item (name, due_date, priority, status, index) {
     const item = document.createElement('div');
     const status_icon = (status == 'undone' ? "fa-regular fa-circle" : "fa-solid fa-circle-check");
@@ -161,6 +159,7 @@ const DOMprojects = (function () {
         // After removing the 'index' project, all the projects to the right will be shifted to the left by 1 index
         localStorage.removeItem(index); 
         for (let i = index; i < all_projects.length; i++) {
+            all_projects[i].index = parseInt(i); 
             all_projects[i].dom_project_in_dropdown.setAttribute('data-index', i);
             update_storage_with_project(i);   
         }
