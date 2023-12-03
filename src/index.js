@@ -1,8 +1,7 @@
+import './style.css';
 import './fontawesome.js'
 import { DOMprojects } from './DOMprojects.js';
-//import { Projects } from './projects.js';
 import { projectHTMLTemplate } from './projectHTMLTemplate.js';
-import './style.css';
 import { formatDistanceToNow, parseISO } from 'date-fns'
 
 const main_content = document.getElementById('main-content');

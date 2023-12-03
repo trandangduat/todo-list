@@ -9,6 +9,7 @@
     --primary: hsl(212, 92%, 45%);
     --alert: #ef4444;
     --warning: #f59e0b;
+    --slate: #334155; 
     --button-primary: hsl(212, 92%, 45%);
     --button-primary-hover: hsl(212, 92%, 35%);
     --border-color: rgb(0, 0, 0, 15%);
@@ -356,30 +357,35 @@ span.unicode-icon {
 
 #items-wrapper > .todo-item #todos-name {
     display: inline-block;
+    font-weight: 600;
+    color: var(--slate);
 }
 
-#items-wrapper > .todo-item.high #todos-name:after,
-#items-wrapper > .todo-item.medium #todos-name:after {
-    padding: 2px 5px;
-    border-radius: var(--border-radius);
-    border-width: 3px;
-    border-style: solid;
-    font-size: .8rem;
+#items-wrapper > .todo-item #todos-name:after {
     font-weight: 700;
-    margin-left: 15px;
+    margin-left: 5px;
+    display:inline-flex;
+    color: var(--slate); 
+}
+
+#items-wrapper > .todo-item.high #todos-name,
+#items-wrapper > .todo-item.high #todos-name:after {
+    color: var(--alert);
+}
+
+#items-wrapper > .todo-item.medium #todos-name:after {
+    content: '⚠️';
 }
 
 #items-wrapper > .todo-item.high #todos-name:after {
-    content: 'high';
-    color: var(--alert);
-    border-color: var(--alert);
+    content: '🔥'
 }
 
+#items-wrapper > .todo-item.medium #todos-name,
 #items-wrapper > .todo-item.medium #todos-name:after {
-    content: 'medium';
     color: var(--warning);
-    border-color: var(--warning);
 }
+
 #items-wrapper #mark-done {
     display: flex;
     font-size: 1.1rem;
@@ -498,6 +504,18 @@ dialog {
 
 #popup-form > fieldset > .text-label {
     font-weight: 600;
+}
+
+input[name="priority"] + label {
+    font-weight: 700;
+    color: var(--slate);
+}
+
+input[name="priority"] + label[for="high"] {
+    color: var(--alert);
+}
+input[name="priority"] + label[for="medium"] {
+    color: var(--warning);
 }
 
 #popup-form #popup-header {
