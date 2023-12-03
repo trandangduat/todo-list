@@ -7,6 +7,8 @@
 :root {
     --text-color: #24292f;
     --primary: hsl(212, 92%, 45%);
+    --alert: #ef4444;
+    --warning: #f59e0b;
     --button-primary: hsl(212, 92%, 45%);
     --button-primary-hover: hsl(212, 92%, 35%);
     --border-color: rgb(0, 0, 0, 15%);
@@ -15,6 +17,7 @@
     --active-bdc: rgb(17 55 184 / 11%);
     --confirm: #1f9040;
     --box-shadow-large: 0px 0px 20px rgb(0, 0, 0, 6%);
+
 }
 
 * {
@@ -342,6 +345,32 @@ a {
     opacity: .6;
 }
 
+#items-wrapper > .todo-item #todos-name {
+    display: inline-block;
+}
+
+#items-wrapper > .todo-item.high #todos-name:after,
+#items-wrapper > .todo-item.medium #todos-name:after {
+    padding: 2px 5px;
+    border-radius: var(--border-radius);
+    border-width: 3px;
+    border-style: solid;
+    font-size: .8rem;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+#items-wrapper > .todo-item.high #todos-name:after {
+    content: 'high';
+    color: var(--alert);
+    border-color: var(--alert);
+}
+
+#items-wrapper > .todo-item.medium #todos-name:after {
+    content: 'medium';
+    color: var(--warning);
+    border-color: var(--warning);
+}
 #items-wrapper #mark-done {
     display: flex;
     font-size: 1.1rem;

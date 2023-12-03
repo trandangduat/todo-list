@@ -5,15 +5,19 @@ const projectHTMLTemplate = (function() {
     header_bar.innerHTML = `
         <h1>
             <i class="fa-regular fa-file"></i>
-            <div id = "project-name"><p style = "display:inline;"></p></div>
+            <div id = "project-name" contenteditable="false"><p style = "display:inline;"></p></div>
             <div id = "edit-project">
                 <i class="fa-solid fa-pen" title = "Edit project"></i>
                 <i id = "cancel-project-change" class="fa-solid fa-xmark" style = "display:none"></i>
             </div>
         </h1>
         <div id = "control">
-            <div id="filter-item" class = "btn neutral"><i class="fa-solid fa-filter"></i>Filter</div>
-            <div id="create-new-todo" class="btn confirm"><i class="fa-solid fa-pen-to-square"></i>New</div>
+            <div id="filter-item" class = "btn neutral">
+                <i class="fa-solid fa-filter"></i>Filter
+            </div>
+            <div id="create-new-todo" class="btn confirm">
+                <i class="fa-solid fa-pen-to-square"></i>New
+            </div>
         </div>
     `;
     
@@ -24,7 +28,6 @@ const projectHTMLTemplate = (function() {
     DOM.push(items_wrapper);
 
     const change_project_name_to = function (project_name) {
-        //console.log(project_name); 
         const header_title = document.querySelector("#header-bar > h1 > #project-name > p");
         header_title.textContent = project_name;
     };
