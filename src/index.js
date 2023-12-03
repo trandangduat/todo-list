@@ -57,17 +57,15 @@ function add_project_label_to_sidebar_dropdown (project) {
 const dom_manipulate = (function () {
     const toggle_dropdown_on_click = (function () {
         projects_button.addEventListener("click", function (event) {
-            const folder_icon = document.querySelector("#projects > a > i");
+            const folder_icon = document.querySelector("#projects > a > span.unicode-icon");
             if (projects_dropdown.style.display == 'none') {
                 projects_dropdown.style.display = '';
                 projects_dropdown.style.animation = 'fadeInSlideDown 200ms forwards';
-                folder_icon.classList.remove('fa-folder');
-                folder_icon.classList.add('fa-folder-open');
+                folder_icon.innerText = '📂'; 
             } else {
                 projects_dropdown.style.display = 'none';
                 projects_dropdown.style.animation = '';
-                folder_icon.classList.remove('fa-folder-open');
-                folder_icon.classList.add('fa-folder');
+                folder_icon.innerText = '📁'; 
             }
         });
     })();

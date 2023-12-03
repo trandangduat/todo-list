@@ -139,7 +139,7 @@ a {
 #sidebar > .label > a {
     color: black;
     display: block;
-    padding: 10px 30px;
+    padding: 10px 20px;
     border-radius: var(--border-radius);
     display: flex;
     gap: 8px;
@@ -192,6 +192,15 @@ a {
     padding: 10px 20px;
     margin-top: 10px;
     justify-content: center;
+}
+
+span.unicode-icon {
+    font-size: 1rem;
+    font-family: monospace;
+}
+
+#sidebar .dropdown #left-side .unicode-icon {
+    display:none;
 }
 
 .dropdown {

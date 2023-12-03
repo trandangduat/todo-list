@@ -109,7 +109,7 @@ const project = function(name, index) {
     dom_project_in_dropdown.setAttribute('data-index', index);
     dom_project_in_dropdown.innerHTML = `
         <div id = "left-side">
-            <i class="fa-regular fa-file fa-fw"></i>
+            <span class = "unicode-icon">📄</span>
             <p>${name}</p>
         </div>
         <div id = "remove-project">
