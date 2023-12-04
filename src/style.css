@@ -1,4 +1,5 @@
 @import url("reset.css");
+@import url("upcoming.css");
 @font-face {
     font-family: inter;
     src: url("Inter-VariableFont_slnt\,wght.ttf");
@@ -16,9 +17,13 @@
     --border-radius: 5px;
     --active-bgc: rgb(17 55 184 / 5%);
     --active-bdc: rgb(17 55 184 / 11%);
-    --confirm: #1f9040;
+    --confirm: #16a34a;
+    --confirm-hover: #15803d;
     --box-shadow-large: 0px 0px 20px rgb(0, 0, 0, 6%);
-
+        --heat-default: #f1f5f9;
+        --heat-map-100: #e2e8f0;
+        --heat-map-500: #64748b;
+        --heat-map-1000: #334155;
 }
 
 * {
@@ -39,6 +44,18 @@ h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
 
 a {
     text-decoration: none;
+}
+
+
+@keyframes SlideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) ;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeInSlideDown {
@@ -86,7 +103,7 @@ a {
 }
 
 .confirm:hover {
-    background-color: rgb(30 131 59);
+    background-color: var(--confirm-hover);
 }
 
 .neutral {
@@ -181,7 +198,7 @@ a {
 }
 
 #project-name[contenteditable="false"] {
-    animation: fadeInSlideLeftToRight 200ms forwards;
+    animation: SlideUpFadeIn 400ms forwards;
 }
 
 #header-bar #control {
@@ -355,35 +372,39 @@ span.unicode-icon {
     opacity: .6;
 }
 
-#items-wrapper > .todo-item #todos-name {
+.todo-item #todos-name {
     display: inline-block;
-    font-weight: 600;
-    color: var(--slate);
+    font-weight: 400;
+    color: black;
 }
 
-#items-wrapper > .todo-item #todos-name:after {
+.todo-item #todos-name:after {
     font-weight: 700;
     margin-left: 5px;
     display:inline-flex;
     color: var(--slate); 
 }
 
-#items-wrapper > .todo-item.high #todos-name,
-#items-wrapper > .todo-item.high #todos-name:after {
+.todo-item.high #todos-name,
+.todo-item.high #todos-name:after {
     color: var(--alert);
 }
-
-#items-wrapper > .todo-item.medium #todos-name:after {
-    content: '⚠️';
+.todo-item.medium #todos-name,
+.todo-item.medium #todos-name:after {
+    color: var(--warning);
 }
 
-#items-wrapper > .todo-item.high #todos-name:after {
+.todo-item.medium #todos-name:after {
+    content: '✨';
+}
+
+.todo-item.high #todos-name:after {
     content: '🔥'
 }
 
-#items-wrapper > .todo-item.medium #todos-name,
-#items-wrapper > .todo-item.medium #todos-name:after {
-    color: var(--warning);
+.todo-item.medium #todos-name, 
+.todo-item.high #todos-name {
+    font-weight: 600;
 }
 
 #items-wrapper #mark-done {
@@ -419,7 +440,7 @@ span.unicode-icon {
 
 #options:hover > .tooltip {
     visibility:visible;
-    animation: fadeInSlideDown 200ms forwards;
+    animation: SlideUpFadeIn 400ms forwards;
 }
 
 .tooltip {

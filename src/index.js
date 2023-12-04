@@ -2,16 +2,20 @@ import './style.css';
 import './fontawesome.js'
 import { DOMprojects } from './DOMprojects.js';
 import { projectHTMLTemplate } from './projectHTMLTemplate.js';
+import { Upcoming } from './upcoming.js'
 
 const main_content = document.getElementById('main-content');
 const new_project_button = document.getElementById('create-new-project');
 const projects_dropdown = new_project_button.parentElement;
+
 const today_button = document.getElementById('today');
 const upcoming_button = document.getElementById('upcoming');
 const projects_button = document.getElementById('projects');
+
 const edit_todo_info = document.getElementById('edit-todo-information');
 const cancel_todo_changes_button = document.querySelector('#edit-todo-information #cancel-change');
 const save_todo_changes_button = document.querySelector('#edit-todo-information #save-change');
+
 let current_project_index = -1;
 let previous_active_label = today_button;
 let previous_active_project;
@@ -26,6 +30,9 @@ function change_main_content (contents) {
 }
 
 function change_previous_active_label_to (current_label) {
+    if (current_label !== projects_button) {
+        change_previous_active_project_to();
+    }  
     previous_active_label.classList.remove('currently-active');
     current_label.classList.add('currently-active');
     previous_active_label = current_label;
@@ -35,6 +42,7 @@ function change_previous_active_project_to (current_project) {
     if (typeof previous_active_project !== 'undefined') {
         previous_active_project.classList.remove('current');
     }
+    if (!current_project) return;
     current_project_index = current_project.getAttribute("data-index");
     current_project.classList.add('current');
     previous_active_project = current_project;
@@ -42,8 +50,8 @@ function change_previous_active_project_to (current_project) {
 
 function change_main_content_with_project (project_index) {
     const project = DOMprojects.all_projects[project_index];
-        change_main_content(projectHTMLTemplate.DOM);
-        projectHTMLTemplate.change_project_name_to(project.name);
+    change_main_content(projectHTMLTemplate.DOM);
+    projectHTMLTemplate.change_project_name_to(project.name);
     projectHTMLTemplate.fill_items_wrapper_with(project.all_items);
 }
 
@@ -53,6 +61,12 @@ function add_project_label_to_sidebar_dropdown (project) {
 
 
 const dom_manipulate = (function () {
+    const change_main_content_to_upcoming_page = (function() {
+        upcoming_button.addEventListener("click", () => {
+            change_main_content(Upcoming());
+            change_previous_active_label_to(upcoming_button);
+        });
+    })();
     const toggle_dropdown_on_click = (function () {
         projects_button.addEventListener("click", function (event) {
             const folder_icon = document.querySelector("#projects > a > span.unicode-icon");
