@@ -163,8 +163,21 @@ a {
     gap: 8px;
     align-items: center;
     border: 1px solid transparent;
+    position: relative;
 }
 
+#sidebar > .label > a > .toggle {
+    padding: 8px;
+    border-radius: var(--border-radius);
+    position: absolute;
+    right: 0;
+    display: flex;
+    margin: 4px;
+    aspect-ratio: 1/1;
+}
+#sidebar > .label > a > .toggle:hover {
+    background: rgb(0, 0, 0, 3%);
+}
 #sidebar > .label > a:hover,
 #sidebar > .currently-active > a {
     background-color: rgb(0, 0, 0, 5%);

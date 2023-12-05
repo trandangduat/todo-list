@@ -68,16 +68,15 @@ const dom_manipulate = (function () {
         });
     })();
     const toggle_dropdown_on_click = (function () {
-        projects_button.addEventListener("click", function (event) {
-            const folder_icon = document.querySelector("#projects > a > span.unicode-icon");
+        projects_button.querySelector('.toggle').addEventListener("click", function (event) {
+            const arrow_icon = event.target.querySelector('i');
+            arrow_icon.style.transform = (arrow_icon.style.transform === 'rotate(0deg)' ? 'rotate(-90deg)' : 'rotate(0deg)');
             if (projects_dropdown.style.display == 'none') {
                 projects_dropdown.style.display = '';
                 projects_dropdown.style.animation = 'fadeInSlideDown 200ms forwards';
-                folder_icon.innerText = '📂'; 
             } else {
                 projects_dropdown.style.display = 'none';
                 projects_dropdown.style.animation = '';
-                folder_icon.innerText = '📁'; 
             }
         });
     })();
