@@ -9,7 +9,7 @@
 <body>
     <div id = "container">
         <div id = "sidebar">
-            <div class = "label currently-active" id = "today">
+            <div class = "label currently-active" style = "display: none;" id = "today">
                 <a href = "#today">
                     <span class = "unicode-icon">🔥</span>Today
                 </a>
@@ -29,7 +29,17 @@
                 <li id = "create-new-project" class = "btn neutral">Add a project</li>
             </ul>
         </div>
-        <div id = "main-content"></div>
+        <div id = "main-content">
+                <h1>Today</h1>
+        </div>
+        <!-- <script> -->
+        <!--         const mainContent = document.querySelector("#main-content"); -->
+        <!--         for (let i = 0; i < localStorage.length; i++) { -->
+        <!--                 let project = JSON.parse(localStorage.getItem(i)); -->
+        <!--                 console.log(project); -->
+        <!--         } -->
+        <!---->
+        <!-- </script> -->
     </div>
     <dialog id="edit-todo-information">
         <form id="popup-form" action="" method="post">

@@ -59,6 +59,8 @@ function add_project_label_to_sidebar_dropdown (project) {
     projects_dropdown.insertBefore(project.dom_project_in_dropdown, new_project_button);
 }
 
+change_main_content(Upcoming());
+change_previous_active_label_to(upcoming_button);
 
 const dom_manipulate = (function () {
     const change_main_content_to_upcoming_page = (function() {
@@ -67,6 +69,7 @@ const dom_manipulate = (function () {
             change_previous_active_label_to(upcoming_button);
         });
     })();
+
     const toggle_dropdown_on_click = (function () {
         projects_button.querySelector('.toggle').addEventListener("click", function (event) {
             const arrow_icon = event.target.querySelector('i');
@@ -80,7 +83,7 @@ const dom_manipulate = (function () {
             }
         });
     })();
-
+		
     const new_project = (function() {
         new_project_button.addEventListener("click", function (e) {
             
@@ -129,7 +132,7 @@ const dom_manipulate = (function () {
             }
         });
     })();
-
+	
     const edit_project_information = (function() {
         main_content.addEventListener("click", function (event) {
             const clickedElement = event.target;

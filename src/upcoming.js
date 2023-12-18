@@ -32,8 +32,8 @@ function Upcoming() {
             const date_cell = document.createElement('div');
             date_cell.setAttribute("class", "date-cell");
             date_cell.setAttribute("data-index", i); 
-            if (i === current_date) {
-                date_cell.setAttribute("id", "current");
+            if (i < current_date) {
+                date_cell.setAttribute("id", "past");
             } 
             // brute-force counting how many tasks are there in day 'i' this month
             let tasks_count  = 0;

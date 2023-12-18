@@ -20,12 +20,12 @@
     --confirm: #16a34a;
     --confirm-hover: #15803d;
     --box-shadow-large: 0px 0px 20px rgb(0, 0, 0, 6%);
-        --heat-default: #f1f5f9;
-        --heat-map-100: #e2e8f0;
-        --heat-map-500: #64748b;
-        --heat-map-1000: #334155;
+    --heat-default: #f1f5f9;
+    --heat-map-100: #e2e8f0;
+    --heat-map-500: #64748b;
+    --heat-map-1000: #334155;
 }
-
+	
 * {
     box-sizing: border-box;
 }
@@ -267,7 +267,7 @@ span.unicode-icon {
 }
 
 .dropdown li.current:after {
-    content: '';
+	content: '';
     border: 3px solid var(--primary);
     position: absolute;
     left: -11px;

@@ -4,11 +4,13 @@
     text-transform: uppercase;
     animation: SlideUpFadeIn 500ms forwards;
 }
+
 #cells-container {
     --gap-size: 20px; 
     display: flex;
     gap: var(--gap-size); 
 }
+
 #cells-container > .col {
     display: flex;
     flex-direction: column;
@@ -24,6 +26,7 @@
     position: relative; 
     transition: 400ms; 
     animation: SlideUpFadeIn 500ms forwards;
+		overflow: hidden;
 }
 .date-cell:after {
     content: attr(data-index);
@@ -52,6 +55,9 @@
 .heat-500 span,
 .heat-1000 span {
     color: white;
+}
+.date-cell#past {
+	filter: grayscale(1);			
 }
 #color-guide {
     margin-bottom: 30px;
